@@ -10,7 +10,7 @@ import ListItem from './ListItem';
 import { H1, H3, HeaderDays, P } from '../../Common';
 import { WHITE } from '../../../styles/colors';
 import styles from './styles';
-import getDuration from '../../../utilities/dates';
+import { getDuration } from '../../../utilities/dates';
 
 
 const UserView = (props) => {

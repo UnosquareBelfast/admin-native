@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { View, ScrollView } from 'react-native';
+import { View, ScrollView, ActivityIndicator } from 'react-native';
 import { CheckBox, FormLabel } from 'react-native-elements';
 import { PropTypes as PT } from 'prop-types';
 import styles from './styles';
@@ -7,6 +7,8 @@ import { CustomDatePicker } from '../../Common';
 import StatusBar from '../StatusBar';
 import RequestButton from '../RequestButton';
 import EventTypeGroup from '../EventTypeGroup';
+import WarningMessage from '../WarningMessage';
+import { UNOBLUE } from '../../../styles/colors';
 
 const BookingView = (props) => {
   const {
@@ -19,68 +21,94 @@ const BookingView = (props) => {
     submitRequest,
     updateHalfDay,
     loading,
+    remainingHolidays,
+    potentialHolidays,
+    pendingDays,
+    eventsLoaded,
+    availableDaysForNewBooking,
   } = props;
+
   const { startDate, endDate, halfDay } = booking;
-
   return (
-    <ScrollView
-      style={{ backgroundColor: '#f7f7f7' }}
-      contentContainerStyle={styles.container}
-    >
-      {booked && <StatusBar booking={booking} cancelHoliday={cancelHoliday} />}
-
-      <View style={styles.dateForm}>
-        <View>
-          <FormLabel labelStyle={styles.formLabel}>
-            TYPE
-          </FormLabel>
-          <EventTypeGroup />
-        </View>
-
-        <View>
-          <FormLabel labelStyle={styles.formLabel}>
-            STARTING
-          </FormLabel>
-          <CustomDatePicker
-            chosenDate={startDate}
-            setDate={changeStartDate}
+    !eventsLoaded
+      ? (
+        <View style={styles.spinner}>
+          <ActivityIndicator
+            size="large"
+            color={UNOBLUE}
           />
-
-          { !halfDay && (
-            <Fragment>
+        </View>)
+      : (
+        <ScrollView
+          style={{ backgroundColor: '#f7f7f7' }}
+          contentContainerStyle={styles.container}
+        >
+          {booked && <StatusBar booking={booking} cancelHoliday={cancelHoliday} />}
+          <View style={styles.dateForm}>
+            <View>
               <FormLabel labelStyle={styles.formLabel}>
-                ENDING
+                TYPE
+              </FormLabel>
+              <EventTypeGroup />
+            </View>
+
+            <View>
+              <FormLabel labelStyle={styles.formLabel}>
+                STARTING
               </FormLabel>
               <CustomDatePicker
-                chosenDate={endDate}
-                setDate={changeEndDate}
-                minimumDate={startDate}
+                chosenDate={startDate}
+                setDate={changeStartDate}
               />
-            </Fragment>
-          )}
-          <CheckBox
-            title="Request half day"
-            checked={halfDay}
-            size={20}
-            checkedIcon="check-circle"
-            uncheckedIcon="circle-o"
-            onPress={updateHalfDay}
-            containerStyle={styles.checkBox}
-            textStyle={styles.checkText}
-          />
-        </View>
-      </View>
 
-      <View style={styles.buttonContainer}>
-        <RequestButton
-          updateHoliday={updateHoliday}
-          cancelHoliday={cancelHoliday}
-          submitRequest={submitRequest}
-          booked={booked}
-          loading={loading}
-        />
-      </View>
-    </ScrollView>
+              { !halfDay && (
+                <Fragment>
+                  <FormLabel labelStyle={styles.formLabel}>
+                    ENDING
+                  </FormLabel>
+                  <CustomDatePicker
+                    chosenDate={endDate}
+                    setDate={changeEndDate}
+                    minimumDate={startDate}
+                  />
+                </Fragment>
+              )}
+              <CheckBox
+                title="Request half day"
+                checked={halfDay}
+                size={20}
+                checkedIcon="check-circle"
+                uncheckedIcon="circle-o"
+                onPress={updateHalfDay}
+                containerStyle={styles.checkBox}
+                textStyle={styles.checkText}
+              />
+            </View>
+          </View>
+
+          <WarningMessage
+            remainingHolidays={remainingHolidays}
+            booked={booked}
+            potentialHolidays={potentialHolidays}
+            booking={booking}
+            pendingDays={pendingDays}
+            availableDaysForNewBooking={availableDaysForNewBooking}
+          />
+
+          <View style={styles.buttonContainer}>
+            <RequestButton
+              updateHoliday={updateHoliday}
+              submitRequest={submitRequest}
+              booked={booked}
+              loading={loading}
+              remainingHolidays={remainingHolidays}
+              potentialHolidays={potentialHolidays}
+              booking={booking}
+              availableDaysForNewBooking={availableDaysForNewBooking}
+            />
+          </View>
+        </ScrollView>
+      )
   );
 };
 
@@ -101,6 +129,11 @@ BookingView.propTypes = {
     halfDay: PT.bool,
   }).isRequired,
   loading: PT.bool.isRequired,
+  remainingHolidays: PT.number.isRequired,
+  potentialHolidays: PT.number.isRequired,
+  pendingDays: PT.number.isRequired,
+  eventsLoaded: PT.bool.isRequired,
+  availableDaysForNewBooking: PT.number.isRequired,
 };
 
 export default BookingView;

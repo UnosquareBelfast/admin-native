@@ -8,7 +8,7 @@ import { H3 } from '../../Common';
 import { LIGHTGREY, ACTIVECOLOR, BLACK, GREY } from '../../../styles/colors';
 import { H1_SIZE } from '../../../styles/text';
 import { container } from '../../../styles/layout';
-import getDuration from '../../../utilities/dates';
+import { getDuration } from '../../../utilities/dates';
 
 const HomeView = (props) => {
   const {
