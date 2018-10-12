@@ -5,7 +5,6 @@ import moment from 'moment';
 import { userProfile } from '../../utilities/currentUser';
 import { requestHolidays, updateHolidayRequest, cancelHolidayRequest } from '../../services/holidayService';
 
-
 export default Container => class extends Component {
   static propTypes = {
     navigation: PT.shape({
@@ -46,8 +45,8 @@ export default Container => class extends Component {
         holId: holiday.holId,
         statusId: holiday.statusId,
         status: holiday.status,
-        startDate: chosenDate,
-        endDate: chosenDate,
+        startDate: holiday.startDate || chosenDate,
+        endDate: holiday.endDate || chosenDate,
         halfDay: holiday.halfDay,
       },
       booked,
@@ -166,7 +165,7 @@ export default Container => class extends Component {
 
   render() {
     const { booking, booked, loading } = this.state;
-
+    
     return (
       <Container
         updateHalfDay={this.updateHalfDay}
