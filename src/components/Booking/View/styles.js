@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { GREY, WHITE, RED } from '../../../styles/colors';
+import { GREY, WHITE, PINK } from '../../../styles/colors';
 
 const styles = StyleSheet.create({
   container: {
@@ -57,12 +57,8 @@ const styles = StyleSheet.create({
     backgroundColor: WHITE,
   },
   warningMessage: {
-    backgroundColor: '#FCC6E2',
-    borderTopWidth: 1,
-    borderBottomWidth: 1,
-    borderTopColor: RED,
-    borderBottomColor: RED,
-    paddingVertical: 5,
+    backgroundColor: PINK,
+    paddingVertical: 7,
     paddingHorizontal: 20,
   },
 });

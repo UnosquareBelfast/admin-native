@@ -11,6 +11,7 @@ export const SHADOW = '#F7F7F7';
 
 // BASIC COLORS
 export const RED = '#DD0101';
+export const PINK = '#FBE1E3';
 
 // TAB NAVIGATION
 export const ACTIVECOLOR = '#0EB5D1';

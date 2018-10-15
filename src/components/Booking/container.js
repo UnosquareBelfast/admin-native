@@ -24,6 +24,8 @@ export default Container => class extends Component {
         startDate: '',
         endDate: '',
         halfDay: false,
+        wasHalfDay: false,
+        duration: 0,
       },
       booked: false,
       user: {},
@@ -31,7 +33,7 @@ export default Container => class extends Component {
       remainingHolidays: 0,
       events: [],
       eventsLoaded: false,
-      availableDays: 0,
+      availableDaysForNewBooking: 0,
     };
   }
 
@@ -54,6 +56,7 @@ export default Container => class extends Component {
         endDate: holiday.endDate || chosenDate,
         halfDay: holiday.halfDay,
         wasHalfDay: holiday.halfDay,
+        duration: holiday.duration,
       },
       booked,
     });
@@ -186,16 +189,11 @@ export default Container => class extends Component {
   }
 
   render() {
-<<<<<<< HEAD
     const { booking, booked, loading, remainingHolidays, events, eventsLoaded } = this.state;
     const approvedHolidays = getDays(events, 'Approved');
     const potentialHolidays = booking.halfDay ? 0.5 : getDuration(booking.startDate, booking.endDate);
     const pendingDays = getDays(events, 'Awaiting approval');
 
-=======
-    const { booking, booked, loading } = this.state;
-    
->>>>>>> develop
     return (
       <Container
         updateHalfDay={this.updateHalfDay}

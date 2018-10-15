@@ -5,6 +5,7 @@ import { has, get } from 'lodash';
 import { getMonthEvents, getUserEvents } from '../../utilities/holidays';
 import holidayStatusColor from '../../utilities/holidayStatus';
 import { BLACK, WHITE } from '../../styles/colors';
+import { getDuration } from '../../utilities/dates';
 
 export default Container => class extends Component {
     static propTypes = {
@@ -47,6 +48,7 @@ export default Container => class extends Component {
       if (day) {
         const booked = has(events, day.dateString);
         const event = get(events, day.dateString, 0);
+
         navigation.push('Booking', {
           date: day.dateString,
           event,
@@ -117,6 +119,7 @@ export default Container => class extends Component {
           statusId: item.eventStatus.eventStatusId,
           status: item.eventStatus.description,
           holId: item.holidayId,
+          duration: item.halfDay ? 0.5 : getDuration(item.start, item.end),
         };
       });
 

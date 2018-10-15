@@ -5,15 +5,15 @@ import { UNOBLUE } from '../../../styles/colors';
 
 const RequestButton = (props) => {
   const { updateHoliday, booked, submitRequest, loading, remainingHolidays, potentialHolidays, booking, availableDaysForNewBooking } = props;
-  const { wasHalfDay } = booking;
-  const bookedAvailableDays = availableDaysForNewBooking - potentialHolidays + 1;
+  const { wasHalfDay, duration } = booking;
+  const bookedAvailableDays = availableDaysForNewBooking - potentialHolidays + duration;
   const unbookedAvailableDays = availableDaysForNewBooking - potentialHolidays;
 
   return (
     booked ? (
       <Button
         disabled={(bookedAvailableDays < 0)
-          || (wasHalfDay && (bookedAvailableDays - 0.5 < 0))}
+          || (wasHalfDay && (bookedAvailableDays < 0))}
         onPress={updateHoliday}
         title="Update"
         backgroundColor={UNOBLUE}

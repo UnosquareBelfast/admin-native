@@ -85,7 +85,7 @@ const BookingView = (props) => {
               />
             </View>
           </View>
-
+          
           <WarningMessage
             remainingHolidays={remainingHolidays}
             booked={booked}
