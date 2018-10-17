@@ -11,30 +11,21 @@ const WarningMessage = (props) => {
     booked,
     potentialHolidays,
     booking,
-    pendingDays,
-    availableDaysForNewBooking,
   } = props;
 
+  const gettingMessage = getMessage(
+    remainingHolidays,
+    booked,
+    potentialHolidays,
+    booking
+  );
+
   return (
-    (getMessage(
-      remainingHolidays,
-      booked,
-      potentialHolidays,
-      pendingDays,
-      availableDaysForNewBooking,
-      booking
-    ) !== '')
+    (gettingMessage !== '')
       ? (
         <View style={styles.warningMessage}>
           <P style={{ color: RED }}>
-            {getMessage(
-              remainingHolidays,
-              booked,
-              potentialHolidays,
-              pendingDays,
-              availableDaysForNewBooking,
-              booking
-            )}
+            {gettingMessage}
           </P>
         </View>)
       : null
@@ -45,33 +36,24 @@ const getMessage = (
   remainingHolidays,
   booked,
   potentialHolidays,
-  pendingDays,
-  availableDaysForNewBooking,
   booking,
 ) => {
   const { duration = 0 } = booking;
 
-  const RemainingHolidaysForNewBookings = booked
-    ? ((availableDaysForNewBooking - potentialHolidays + duration).toFixed(1))
-    : ((availableDaysForNewBooking - potentialHolidays).toFixed(1));
+  const remainingHolidaysForNewBookings = booked
+    ? ((remainingHolidays - potentialHolidays + duration).toFixed(1))
+    : ((remainingHolidays - potentialHolidays).toFixed(1));
 
   let message = '';
-  const bookingWarning = `You do not have enough holidays to ${booked ? 'extend' : 'make'} this booking.`;
+  const bookingWarning = 'You are unable to book this holiday due to not having enough available hoildays. Please contact HR.';
 
-  if (booked && RemainingHolidaysForNewBookings < 0) {
-    message = (remainingHolidays > 0 && pendingDays === 0)
-      ? `You do not have enough holidays left. You can only extend this booking by ${remainingHolidays} day(s).`
-      : `${bookingWarning} Please amend any future bookings.`;
-  }
-
-  if (!booked && RemainingHolidaysForNewBookings < 0) {
-    message = (pendingDays === 0)
-      ? `${bookingWarning} You only have ${remainingHolidays} day(s) annual leave left.`
-      : `${bookingWarning} Please amend any future bookings.`;
+  if ((booked && remainingHolidaysForNewBookings < 0)
+    || (!booked && remainingHolidaysForNewBookings < 0)) {
+    message = bookingWarning;
   }
 
   if (!booked && remainingHolidays === 0) {
-    message = 'No more holidays remaining.';
+    message = 'No holidays remaining.';
   }
 
   return message;
@@ -84,8 +66,6 @@ WarningMessage.propTypes = {
   booking: PT.shape({
     duration: PT.number,
   }).isRequired,
-  pendingDays: PT.number.isRequired,
-  availableDaysForNewBooking: PT.number.isRequired,
 };
 
 export default WarningMessage;

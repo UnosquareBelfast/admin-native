@@ -78,12 +78,13 @@ export default Container => class extends Component {
     const { events, remainingHolidays, employee } = this.state;
     const approvedHolidays = getDays(events, 'Approved');
     const eventObject = this.sortingEvents(events);
+    const pendingDays = getDays(events, 'Awaiting approval');
 
     return (
       <Container
         employee={employee}
         events={eventObject}
-        remainingHolidays={remainingHolidays - approvedHolidays}
+        remainingHolidays={remainingHolidays - approvedHolidays - pendingDays}
         approvedHolidays={approvedHolidays}
       />
     );

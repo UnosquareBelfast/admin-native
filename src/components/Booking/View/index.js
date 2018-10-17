@@ -23,22 +23,13 @@ const BookingView = (props) => {
     loading,
     remainingHolidays,
     potentialHolidays,
-    pendingDays,
     eventsLoaded,
-    availableDaysForNewBooking,
   } = props;
 
   const { startDate, endDate, halfDay } = booking;
   return (
-    !eventsLoaded
+    eventsLoaded
       ? (
-        <View style={styles.spinner}>
-          <ActivityIndicator
-            size="large"
-            color={UNOBLUE}
-          />
-        </View>)
-      : (
         <ScrollView
           style={{ backgroundColor: '#f7f7f7' }}
           contentContainerStyle={styles.container}
@@ -85,14 +76,12 @@ const BookingView = (props) => {
               />
             </View>
           </View>
-          
+
           <WarningMessage
             remainingHolidays={remainingHolidays}
             booked={booked}
             potentialHolidays={potentialHolidays}
             booking={booking}
-            pendingDays={pendingDays}
-            availableDaysForNewBooking={availableDaysForNewBooking}
           />
 
           <View style={styles.buttonContainer}>
@@ -104,11 +93,17 @@ const BookingView = (props) => {
               remainingHolidays={remainingHolidays}
               potentialHolidays={potentialHolidays}
               booking={booking}
-              availableDaysForNewBooking={availableDaysForNewBooking}
             />
           </View>
         </ScrollView>
       )
+      : (
+        <View style={styles.spinner}>
+          <ActivityIndicator
+            size="large"
+            color={UNOBLUE}
+          />
+        </View>)
   );
 };
 
@@ -131,9 +126,7 @@ BookingView.propTypes = {
   loading: PT.bool.isRequired,
   remainingHolidays: PT.number.isRequired,
   potentialHolidays: PT.number.isRequired,
-  pendingDays: PT.number.isRequired,
   eventsLoaded: PT.bool.isRequired,
-  availableDaysForNewBooking: PT.number.isRequired,
 };
 
 export default BookingView;
