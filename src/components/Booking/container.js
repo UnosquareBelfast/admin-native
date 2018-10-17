@@ -6,7 +6,7 @@ import { userProfile } from '../../utilities/currentUser';
 import { requestHolidays, updateHolidayRequest, cancelHolidayRequest } from '../../services/holidayService';
 import { getUserEvents, getRemainingHolidays } from '../../utilities/holidays';
 import { getDays, getDuration } from '../../utilities/dates';
-import * as eventDescription from '../../utilities/eventDescription';
+import * as eventDescription from '../../constants/eventDescription';
 
 export default Container => class extends Component {
   static propTypes = {
