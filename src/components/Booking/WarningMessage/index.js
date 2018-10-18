@@ -47,10 +47,10 @@ const getMessage = (
   let message = '';
   const bookingWarning = 'You are unable to book this holiday due to not having enough available hoildays. Please contact HR.';
 
-  if (remainingHolidaysForNewBookings < 0) {
-    message = bookingWarning;
-  } else if (!booked && remainingHolidays === 0) {
+  if (!booked && remainingHolidays === 0) {
     message = 'No holidays remaining.';
+  } else if (remainingHolidaysForNewBookings < 0) {
+    message = bookingWarning;
   }
 
   return message;

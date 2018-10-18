@@ -65,6 +65,16 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     paddingLeft: 20,
   },
+  summaryOfDays: {
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: WHITE,
+    paddingTop: 11,
+    paddingBottom: 11,
+    maxHeight: 70,
+    borderColor: LIGHTGREY,
+    borderTopWidth: 0.7,
+  },
 });
 
 export default styles;

@@ -4,6 +4,7 @@ import { flattenDeep } from 'lodash';
 import { getUserEvents, getRemainingHolidays } from '../../utilities/holidays';
 import { userProfile } from '../../utilities/currentUser';
 import { getDays } from '../../utilities/dates';
+import * as eventDescription from '../../constants/eventDescription';
 
 export default Container => class extends Component {
   static propTypes = {
@@ -76,9 +77,9 @@ export default Container => class extends Component {
 
   render() {
     const { events, remainingHolidays, employee } = this.state;
-    const approvedHolidays = getDays(events, 'Approved');
+    const approvedHolidays = getDays(events, eventDescription.APPROVED);
     const eventObject = this.sortingEvents(events);
-    const pendingDays = getDays(events, 'Awaiting approval');
+    const pendingDays = getDays(events, eventDescription.PENDING);
 
     return (
       <Container
@@ -86,6 +87,7 @@ export default Container => class extends Component {
         events={eventObject}
         remainingHolidays={remainingHolidays - approvedHolidays - pendingDays}
         approvedHolidays={approvedHolidays}
+        pendingDays={pendingDays}
       />
     );
   }

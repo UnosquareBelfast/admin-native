@@ -7,14 +7,21 @@ import {
 } from 'react-native';
 import { isEmpty } from 'lodash';
 import ListItem from './ListItem';
-import { H1, H3, HeaderDays, P } from '../../Common';
+import { H1, H3, SummaryOfDays, P } from '../../Common';
 import { WHITE } from '../../../styles/colors';
 import styles from './styles';
 import { getDuration } from '../../../utilities/dates';
+import * as holidayStatus from '../../../constants/holidayStatus';
 
 
 const UserView = (props) => {
-  const { events, remainingHolidays, employee, approvedHolidays } = props;
+  const {
+    events,
+    remainingHolidays,
+    employee,
+    approvedHolidays,
+    pendingDays,
+  } = props;
 
   const itemList = (item) => {
     const renderItem = isEmpty(item)
@@ -41,10 +48,20 @@ const UserView = (props) => {
           </H1>
           <H3 style={styles.holidayText}>Holidays</H3>
         </View>
-        <HeaderDays
-          approvedHolidays={approvedHolidays}
-          remainingHolidays={remainingHolidays}
-        />
+        <View style={styles.summaryOfDays}>
+          <SummaryOfDays
+            numberOfDays={approvedHolidays}
+            holidayStatus={holidayStatus.BOOKED}
+          />
+          <SummaryOfDays
+            numberOfDays={remainingHolidays}
+            holidayStatus={holidayStatus.REMAINING}
+          />
+          <SummaryOfDays
+            numberOfDays={pendingDays}
+            holidayStatus={holidayStatus.PENDING}
+          />
+        </View>
         <View style={styles.flatListView}>
           <SectionList
             renderItem={({ item }) => (
@@ -70,6 +87,7 @@ UserView.propTypes = {
     surname: PT.string,
   }).isRequired,
   approvedHolidays: PT.number.isRequired,
+  pendingDays: PT.number.isRequired,
 };
 
 export default UserView;
