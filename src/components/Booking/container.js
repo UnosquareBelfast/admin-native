@@ -4,6 +4,9 @@ import { PropTypes as PT } from 'prop-types';
 import moment from 'moment';
 import { userProfile } from '../../utilities/currentUser';
 import { requestHolidays, updateHolidayRequest, cancelHolidayRequest } from '../../services/holidayService';
+import { getUserEvents, getRemainingHolidays } from '../../utilities/holidays';
+import { getDays, getDuration } from '../../utilities/dates';
+import * as eventDescription from '../../constants/eventDescription';
 
 export default Container => class extends Component {
   static propTypes = {
@@ -22,10 +25,14 @@ export default Container => class extends Component {
         startDate: '',
         endDate: '',
         halfDay: false,
+        duration: 0,
       },
       booked: false,
       user: {},
       loading: false,
+      remainingHolidays: 0,
+      events: [],
+      eventsLoaded: false,
     };
   }
 
@@ -36,8 +43,7 @@ export default Container => class extends Component {
     const booked = navigation.getParam('booked', '');
     const holiday = navigation.getParam('event', {});
 
-    userProfile()
-      .then(user => this.setState({ user }));
+    this.sub = navigation.addListener('didFocus', this.loadData);
 
     this.setState({
       booking: {
@@ -48,8 +54,28 @@ export default Container => class extends Component {
         startDate: holiday.startDate || chosenDate,
         endDate: holiday.endDate || chosenDate,
         halfDay: holiday.halfDay,
+        duration: holiday.duration,
       },
       booked,
+    });
+  }
+
+  componentWillUnmount() {
+    this.sub.remove();
+  }
+
+  loadData = () => {
+    Promise.all([
+      getUserEvents(),
+      getRemainingHolidays(),
+      userProfile(),
+    ]).then((res) => {
+      this.setState({
+        events: res[0],
+        remainingHolidays: res[1],
+        user: res[2],
+        eventsLoaded: true,
+      });
     });
   }
 
@@ -164,8 +190,11 @@ export default Container => class extends Component {
   }
 
   render() {
-    const { booking, booked, loading } = this.state;
-    
+    const { booking, booked, loading, remainingHolidays, events, eventsLoaded } = this.state;
+    const approvedHolidays = getDays(events, eventDescription.APPROVED);
+    const potentialHolidays = booking.halfDay ? 0.5 : getDuration(booking.startDate, booking.endDate);
+    const pendingDays = getDays(events, eventDescription.PENDING);
+
     return (
       <Container
         updateHalfDay={this.updateHalfDay}
@@ -177,6 +206,10 @@ export default Container => class extends Component {
         cancelHoliday={this.cancelHoliday}
         changeStartDate={this.changeStartDate}
         changeEndDate={this.changeEndDate}
+        remainingHolidays={remainingHolidays - approvedHolidays - pendingDays}
+        potentialHolidays={potentialHolidays}
+        eventsLoaded={eventsLoaded}
+        pendingDays={pendingDays}
       />
     );
   }

@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { GREY, WHITE } from '../../../styles/colors';
+import { GREY, WHITE, PINK } from '../../../styles/colors';
 
 const styles = StyleSheet.create({
   container: {
@@ -50,6 +50,16 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     paddingHorizontal: 10,
     marginHorizontal: 10,
+  },
+  spinner: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: WHITE,
+  },
+  warningMessage: {
+    backgroundColor: PINK,
+    paddingVertical: 7,
+    paddingHorizontal: 20,
   },
 });
 

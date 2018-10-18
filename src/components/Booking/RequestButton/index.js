@@ -4,11 +4,25 @@ import { PropTypes as PT } from 'prop-types';
 import { UNOBLUE } from '../../../styles/colors';
 
 const RequestButton = (props) => {
-  const { updateHoliday, booked, submitRequest, loading } = props;
+  const {
+    updateHoliday,
+    booked,
+    submitRequest,
+    loading,
+    remainingHolidays,
+    potentialHolidays,
+    booking,
+  } = props;
+
+  const { duration } = booking;
+  const availableDays = booked
+    ? (remainingHolidays - potentialHolidays + duration)
+    : (remainingHolidays - potentialHolidays);
 
   return (
     booked ? (
       <Button
+        disabled={(availableDays < 0)}
         onPress={updateHoliday}
         title="Update"
         backgroundColor={UNOBLUE}
@@ -19,6 +33,8 @@ const RequestButton = (props) => {
       />
     ) : (
       <Button
+        disabled={(remainingHolidays <= 0
+          || availableDays < 0)}
         onPress={submitRequest}
         title="Request"
         backgroundColor={UNOBLUE}
@@ -38,4 +54,9 @@ RequestButton.propTypes = {
   booked: PT.bool.isRequired,
   submitRequest: PT.func.isRequired,
   loading: PT.bool.isRequired,
+  remainingHolidays: PT.number.isRequired,
+  potentialHolidays: PT.number.isRequired,
+  booking: PT.shape({
+    duration: PT.number,
+  }).isRequired,
 };
