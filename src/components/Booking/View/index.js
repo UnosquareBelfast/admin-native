@@ -9,6 +9,7 @@ import RequestButton from '../RequestButton';
 import EventTypeGroup from '../EventTypeGroup';
 import WarningMessage from '../WarningMessage';
 import { UNOBLUE } from '../../../styles/colors';
+import * as eventDescription from '../../../constants/eventDescription';
 
 const BookingView = (props) => {
   const {
@@ -78,14 +79,17 @@ const BookingView = (props) => {
             </View>
           </View>
 
-          <WarningMessage
-            remainingHolidays={remainingHolidays}
-            booked={booked}
-            potentialHolidays={potentialHolidays}
-            booking={booking}
-          />
+          {status !== eventDescription.REJECTED
+            ? (
+              <WarningMessage
+                remainingHolidays={remainingHolidays}
+                booked={booked}
+                potentialHolidays={potentialHolidays}
+                booking={booking}
+              />)
+            : null}
 
-          {(status !== 'Rejected'
+          {status !== eventDescription.REJECTED
             ? (
               <View style={styles.buttonContainer}>
                 <RequestButton
@@ -98,7 +102,7 @@ const BookingView = (props) => {
                   booking={booking}
                 />
               </View>)
-            : null)}
+            : null}
 
         </ScrollView>
       )
