@@ -26,7 +26,8 @@ const BookingView = (props) => {
     eventsLoaded,
   } = props;
 
-  const { startDate, endDate, halfDay } = booking;
+  const { startDate, endDate, halfDay, status } = booking;
+
   return (
     eventsLoaded
       ? (
@@ -84,17 +85,21 @@ const BookingView = (props) => {
             booking={booking}
           />
 
-          <View style={styles.buttonContainer}>
-            <RequestButton
-              updateHoliday={updateHoliday}
-              submitRequest={submitRequest}
-              booked={booked}
-              loading={loading}
-              remainingHolidays={remainingHolidays}
-              potentialHolidays={potentialHolidays}
-              booking={booking}
-            />
-          </View>
+          {(status !== 'Rejected'
+            ? (
+              <View style={styles.buttonContainer}>
+                <RequestButton
+                  updateHoliday={updateHoliday}
+                  submitRequest={submitRequest}
+                  booked={booked}
+                  loading={loading}
+                  remainingHolidays={remainingHolidays}
+                  potentialHolidays={potentialHolidays}
+                  booking={booking}
+                />
+              </View>)
+            : null)}
+
         </ScrollView>
       )
       : (
