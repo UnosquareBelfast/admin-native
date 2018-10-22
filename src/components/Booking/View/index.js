@@ -82,27 +82,25 @@ const BookingView = (props) => {
 
           {rejected
             ? (
-              <WarningMessage
-                remainingHolidays={remainingHolidays}
-                booked={booked}
-                potentialHolidays={potentialHolidays}
-                booking={booking}
-              />)
-            : null}
-
-          {rejected
-            ? (
-              <View style={styles.buttonContainer}>
-                <RequestButton
-                  updateHoliday={updateHoliday}
-                  submitRequest={submitRequest}
-                  booked={booked}
-                  loading={loading}
+              <Fragment>
+                <WarningMessage
                   remainingHolidays={remainingHolidays}
+                  booked={booked}
                   potentialHolidays={potentialHolidays}
                   booking={booking}
                 />
-              </View>)
+                <View style={styles.buttonContainer}>
+                  <RequestButton
+                    updateHoliday={updateHoliday}
+                    submitRequest={submitRequest}
+                    booked={booked}
+                    loading={loading}
+                    remainingHolidays={remainingHolidays}
+                    potentialHolidays={potentialHolidays}
+                    booking={booking}
+                  />
+                </View>
+              </Fragment>)
             : null}
 
         </ScrollView>
