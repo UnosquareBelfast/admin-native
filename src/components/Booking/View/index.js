@@ -9,6 +9,7 @@ import RequestButton from '../RequestButton';
 import EventTypeGroup from '../EventTypeGroup';
 import WarningMessage from '../WarningMessage';
 import { UNOBLUE } from '../../../styles/colors';
+import * as eventDescription from '../../../constants/eventDescription';
 
 const BookingView = (props) => {
   const {
@@ -26,7 +27,9 @@ const BookingView = (props) => {
     eventsLoaded,
   } = props;
 
-  const { startDate, endDate, halfDay } = booking;
+  const { startDate, endDate, halfDay, status } = booking;
+  const rejected = (status !== eventDescription.REJECTED)
+
   return (
     eventsLoaded
       ? (
@@ -77,24 +80,29 @@ const BookingView = (props) => {
             </View>
           </View>
 
-          <WarningMessage
-            remainingHolidays={remainingHolidays}
-            booked={booked}
-            potentialHolidays={potentialHolidays}
-            booking={booking}
-          />
+          {rejected
+            ? (
+              <Fragment>
+                <WarningMessage
+                  remainingHolidays={remainingHolidays}
+                  booked={booked}
+                  potentialHolidays={potentialHolidays}
+                  booking={booking}
+                />
+                <View style={styles.buttonContainer}>
+                  <RequestButton
+                    updateHoliday={updateHoliday}
+                    submitRequest={submitRequest}
+                    booked={booked}
+                    loading={loading}
+                    remainingHolidays={remainingHolidays}
+                    potentialHolidays={potentialHolidays}
+                    booking={booking}
+                  />
+                </View>
+              </Fragment>)
+            : null}
 
-          <View style={styles.buttonContainer}>
-            <RequestButton
-              updateHoliday={updateHoliday}
-              submitRequest={submitRequest}
-              booked={booked}
-              loading={loading}
-              remainingHolidays={remainingHolidays}
-              potentialHolidays={potentialHolidays}
-              booking={booking}
-            />
-          </View>
         </ScrollView>
       )
       : (
