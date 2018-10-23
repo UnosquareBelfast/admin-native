@@ -120,6 +120,7 @@ export default Container => class extends Component {
           status: item.eventStatus.description,
           holId: item.holidayId,
           duration: item.halfDay ? 0.5 : getDuration(item.start, item.end),
+          eventType: item.eventType.description,
         };
       });
 

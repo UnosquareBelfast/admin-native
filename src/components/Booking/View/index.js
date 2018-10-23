@@ -24,6 +24,7 @@ const BookingView = (props) => {
     remainingHolidays,
     potentialHolidays,
     eventsLoaded,
+    selectEventType,
   } = props;
 
   const { startDate, endDate, halfDay } = booking;
@@ -40,7 +41,9 @@ const BookingView = (props) => {
               <FormLabel labelStyle={styles.formLabel}>
                 TYPE
               </FormLabel>
-              <EventTypeGroup />
+              <EventTypeGroup
+                selectEventType={selectEventType}
+              />
             </View>
 
             <View>
@@ -127,6 +130,7 @@ BookingView.propTypes = {
   remainingHolidays: PT.number.isRequired,
   potentialHolidays: PT.number.isRequired,
   eventsLoaded: PT.bool.isRequired,
+  selectEventType: PT.func.isRequired,
 };
 
 export default BookingView;

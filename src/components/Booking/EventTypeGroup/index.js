@@ -1,23 +1,33 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { PropTypes as PT } from 'prop-types';
 import { Icon } from 'react-native-elements';
 import { GREY, WHITE } from '../../../styles/colors';
+import type from '../../../constants/eventTypes';
 
 class EventTypeGroup extends Component {
+  static propTypes = {
+    selectEventType: PT.func.isRequired,
+  }
+
   constructor() {
     super();
     this.state = {
       eventType: [
-        { type: 'Annual leave', icon: 'suitcase', color: '#A7BF35' },
-        { type: 'Working from Home', icon: 'home', color: '#399BB6' },
+        { type: type.ANNUAL_LEAVE, icon: 'suitcase', color: '#A7BF35' },
+        { type: type.WFH, icon: 'home', color: '#399BB6' },
         { type: 'Sick leave', icon: 'bed', color: '#A2798F' },
         { type: 'Work related travel', icon: 'plane', color: '#FF544E' },
       ],
-      selectedIndex: 0,
+      selectedIndex: '',
     };
   }
 
-  selected = i => this.setState({ selectedIndex: i });
+  selected = (i, eventType) => {
+    const { selectEventType } = this.props;
+    this.setState({ selectedIndex: i });
+    selectEventType(eventType[i].type);
+  };
 
   render() {
     const { eventType, selectedIndex } = this.state;
@@ -28,7 +38,7 @@ class EventTypeGroup extends Component {
       return (
         <TouchableOpacity
           key={index}
-          onPress={() => this.selected(index)}
+          onPress={() => this.selected(index, eventType)}
           style={[styles.box,
             {
               backgroundColor: isSelected ? event.color : WHITE,
