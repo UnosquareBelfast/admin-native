@@ -16,10 +16,10 @@ class EventTypeGroup extends Component {
       eventType: [
         { type: type.ANNUAL_LEAVE, icon: 'suitcase', color: '#A7BF35' },
         { type: type.WFH, icon: 'home', color: '#399BB6' },
-        { type: 'Sick leave', icon: 'bed', color: '#A2798F' },
-        { type: 'Work related travel', icon: 'plane', color: '#FF544E' },
+        { type: type.SICK_LEAVE, icon: 'bed', color: '#A2798F' },
+        { type: type.WORK_TRAVEL, icon: 'plane', color: '#FF544E' },
       ],
-      selectedIndex: '',
+      selectedIndex: 0,
     };
   }
 

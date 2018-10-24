@@ -58,7 +58,7 @@ export default Container => class extends Component {
         endDate: holiday.endDate || chosenDate,
         halfDay: holiday.halfDay,
         duration: holiday.duration,
-        eventType: holiday.eventType,
+        eventType: holiday.eventType === undefined ? eventType.ANNUAL_LEAVE : holiday.eventType,
       },
       booked,
     });
