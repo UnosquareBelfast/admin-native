@@ -4,9 +4,11 @@ import { PropTypes as PT } from 'prop-types';
 import moment from 'moment';
 import { userProfile } from '../../utilities/currentUser';
 import { requestHolidays, updateHolidayRequest, cancelHolidayRequest } from '../../services/holidayService';
+import { requestWFH } from '../../services/wfhService';
 import { getUserEvents, getRemainingHolidays } from '../../utilities/holidays';
 import { getDays, getDuration } from '../../utilities/dates';
 import * as eventDescription from '../../constants/eventDescription';
+import eventType from '../../constants/eventTypes';
 
 export default Container => class extends Component {
   static propTypes = {
@@ -26,6 +28,7 @@ export default Container => class extends Component {
         endDate: '',
         halfDay: false,
         duration: 0,
+        eventType: '',
       },
       booked: false,
       user: {},
@@ -55,6 +58,7 @@ export default Container => class extends Component {
         endDate: holiday.endDate || chosenDate,
         halfDay: holiday.halfDay,
         duration: holiday.duration,
+        eventType: holiday.eventType || eventType.ANNUAL_LEAVE,
       },
       booked,
     });
@@ -62,6 +66,15 @@ export default Container => class extends Component {
 
   componentWillUnmount() {
     this.sub.remove();
+  }
+
+  selectEventType = (type) => {
+    this.setState(prevState => ({
+      booking: {
+        ...prevState.booking,
+        eventType: type,
+      },
+    }));
   }
 
   loadData = () => {
@@ -116,6 +129,11 @@ export default Container => class extends Component {
     const { navigation } = this.props;
     this.setState({ loading: true });
 
+    const endpoints = {
+      [eventType.ANNUAL_LEAVE]: requestHolidays,
+      [eventType.WFH]: requestWFH,
+    };
+
     const request = {
       dates: [
         {
@@ -127,7 +145,7 @@ export default Container => class extends Component {
       employeeId: user.employeeId,
     };
 
-    requestHolidays(request)
+    endpoints[booking.eventType](request)
       .then(() => {
         this.setState({ loading: false });
         navigation.pop();
@@ -210,6 +228,7 @@ export default Container => class extends Component {
         potentialHolidays={potentialHolidays}
         eventsLoaded={eventsLoaded}
         pendingDays={pendingDays}
+        selectEventType={this.selectEventType}
       />
     );
   }
