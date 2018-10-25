@@ -209,9 +209,9 @@ export default Container => class extends Component {
 
   render() {
     const { booking, booked, loading, remainingHolidays, events, eventsLoaded } = this.state;
-    const approvedHolidays = getDays(events, eventDescription.APPROVED);
+    const approvedHolidays = getDays(events, eventDescription.APPROVED, eventType.ANNUAL_LEAVE);
     const potentialHolidays = booking.halfDay ? 0.5 : getDuration(booking.startDate, booking.endDate);
-    const pendingDays = getDays(events, eventDescription.PENDING);
+    const pendingDays = getDays(events, eventDescription.PENDING, eventType.ANNUAL_LEAVE);
 
     return (
       <Container
