@@ -6,12 +6,12 @@ export const getDays = (events, description, eventType) => {
   let totalDays = 0;
   events.forEach((event) => {
     if (event.eventType.description === eventType) {
-      if (!event.halfDay) {
-        totalDays += event.eventStatus.description === description
-          ? getDuration(event.start, event.end) : 0;
-      } else {
+      if (event.halfDay) {
         totalDays += event.eventStatus.description === description
           ? 0.5 : 0;
+      } else {
+        totalDays += event.eventStatus.description === description
+          ? getDuration(event.start, event.end) : 0;
       }
     }
   });
