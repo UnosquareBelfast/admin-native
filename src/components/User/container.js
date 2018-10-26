@@ -5,6 +5,7 @@ import { getUserEvents, getRemainingHolidays } from '../../utilities/holidays';
 import { userProfile } from '../../utilities/currentUser';
 import { getDays } from '../../utilities/dates';
 import * as eventDescription from '../../constants/eventDescription';
+import eventType from '../../constants/eventTypes';
 
 export default Container => class extends Component {
   static propTypes = {
@@ -77,9 +78,9 @@ export default Container => class extends Component {
 
   render() {
     const { events, remainingHolidays, employee } = this.state;
-    const approvedHolidays = getDays(events, eventDescription.APPROVED);
+    const approvedHolidays = getDays(events, eventDescription.APPROVED, eventType.ANNUAL_LEAVE);
     const eventObject = this.sortingEvents(events);
-    const pendingDays = getDays(events, eventDescription.PENDING);
+    const pendingDays = getDays(events, eventDescription.PENDING, eventType.ANNUAL_LEAVE);
 
     return (
       <Container
