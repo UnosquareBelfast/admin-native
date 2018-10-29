@@ -9,6 +9,8 @@ import { LIGHTGREY, ACTIVECOLOR, BLACK, GREY } from '../../../styles/colors';
 import { H1_SIZE } from '../../../styles/text';
 import { container } from '../../../styles/layout';
 import { getDuration } from '../../../utilities/dates';
+import eventType from '../../../constants/eventTypes';
+import { holidayStatus } from '../../../constants/holidayStatus';
 
 const HomeView = (props) => {
   const {
@@ -54,15 +56,19 @@ const HomeView = (props) => {
         <FlatList
           keyExtractor={item => item.eventId.toString()}
           data={upcomingEvents}
-          renderItem={({ item }) => (
-            <ListItem
-              statusId={item.eventStatus.eventStatusId}
-              status={item.eventStatus.description}
-              startDate={item.start}
-              endDate={item.end}
-              duration={item.halfDay ? 0.5 : getDuration(item.start, item.end)}
-            />
-          )}
+          renderItem={({ item }) => {
+            const isWfh = (item.eventType.description === eventType.WFH);
+            return (
+              <ListItem
+                statusId={isWfh
+                  ? holidayStatus.WFH : item.eventStatus.eventStatusId}
+                status={isWfh
+                  ? eventType.WFH : item.eventStatus.description}
+                startDate={item.start}
+                endDate={item.end}
+                duration={item.halfDay ? 0.5 : getDuration(item.start, item.end)}
+              />);
+          }}
         />
       </View>
     </ScrollView>

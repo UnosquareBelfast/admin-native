@@ -11,8 +11,9 @@ import { H1, H3, SummaryOfDays, P } from '../../Common';
 import { WHITE } from '../../../styles/colors';
 import styles from './styles';
 import { getDuration } from '../../../utilities/dates';
-import * as holidayStatus from '../../../constants/holidayStatus';
-
+import * as holidayOverview from '../../../constants/holidayOverview';
+import eventType from '../../../constants/eventTypes';
+import { holidayStatus } from '../../../constants/holidayStatus';
 
 const UserView = (props) => {
   const {
@@ -24,12 +25,16 @@ const UserView = (props) => {
   } = props;
 
   const itemList = (item) => {
-    const renderItem = isEmpty(item)
+    const emptyItem = isEmpty(item);
+    const isWfh = !emptyItem && (item.eventType.description === eventType.WFH);
+    const renderItem = emptyItem
       ? (<P style={styles.noItems}>Nothing to Show</P>)
       : (
         <ListItem
-          statusId={item.eventStatus.eventStatusId}
-          status={item.eventStatus.description}
+          statusId={isWfh
+            ? holidayStatus.WFH : item.eventStatus.eventStatusId}
+          status={isWfh
+            ? eventType.WFH : item.eventStatus.description}
           startDate={item.start}
           endDate={item.end}
           duration={item.halfDay ? 0.5 : getDuration(item.start, item.end)}
@@ -51,15 +56,15 @@ const UserView = (props) => {
         <View style={styles.summaryOfDays}>
           <SummaryOfDays
             numberOfDays={approvedHolidays}
-            holidayStatus={holidayStatus.BOOKED}
+            holidayOverview={holidayOverview.BOOKED}
           />
           <SummaryOfDays
             numberOfDays={remainingHolidays}
-            holidayStatus={holidayStatus.REMAINING}
+            holidayOverview={holidayOverview.REMAINING}
           />
           <SummaryOfDays
             numberOfDays={pendingDays}
-            holidayStatus={holidayStatus.PENDING}
+            holidayOverview={holidayOverview.PENDING}
           />
         </View>
         <View style={styles.flatListView}>

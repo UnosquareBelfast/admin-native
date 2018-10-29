@@ -5,7 +5,7 @@ import { getUserEvents, getRemainingHolidays } from '../../utilities/holidays';
 import { userProfile } from '../../utilities/currentUser';
 import { getDays } from '../../utilities/dates';
 import * as eventDescription from '../../constants/eventDescription';
-import eventType from '../../constants/eventTypes';
+import eventTypes from '../../constants/eventTypes';
 
 export default Container => class extends Component {
   static propTypes = {
@@ -53,34 +53,36 @@ export default Container => class extends Component {
   sortingEvents = (events) => {
     const { createArray } = this;
     let eventArray = [];
-    const approvedArray = createArray(events, 'Approved');
-    const awaitApprovalArray = createArray(events, 'Awaiting approval');
-    const rejectedArray = createArray(events, 'Rejected');
-    const cancelledArray = createArray(events, 'Cancelled');
+    const approvedArray = createArray(events, eventDescription.APPROVED, eventTypes.ANNUAL_LEAVE);
+    const awaitApprovalArray = createArray(events, eventDescription.PENDING, eventTypes.ANNUAL_LEAVE);
+    const rejectedArray = createArray(events, eventDescription.REJECTED, eventTypes.ANNUAL_LEAVE);
+    const wfhArray = createArray(events, eventDescription.PENDING, eventTypes.WFH);
+    const cancelledArray = createArray(events, eventDescription.CANCELLED, eventTypes.ANNUAL_LEAVE);
 
     eventArray = [
-      { title: 'Approved', data: approvedArray },
-      { title: 'Awaiting approval', data: awaitApprovalArray },
-      { title: 'Rejected', data: rejectedArray },
-      { title: 'Cancelled', data: cancelledArray },
+      { title: eventDescription.APPROVED, data: approvedArray },
+      { title: eventDescription.PENDING, data: awaitApprovalArray },
+      { title: eventDescription.REJECTED, data: rejectedArray },
+      { title: eventTypes.WFH, data: wfhArray },
+      { title: eventDescription.CANCELLED, data: cancelledArray },
     ];
 
     return eventArray;
   }
 
-  createArray = (events, description) => {
+  createArray = (events, description, eventType) => {
     let arr = [];
-
-    arr.push(events.filter(event => event.eventStatus.description === description));
+    arr.push(events.filter(event => event.eventType.description === eventType
+      && event.eventStatus.description === description));
     arr = flattenDeep(arr);
     return arr.length === 0 ? [{}] : arr;
-  }
+  };
 
   render() {
     const { events, remainingHolidays, employee } = this.state;
-    const approvedHolidays = getDays(events, eventDescription.APPROVED, eventType.ANNUAL_LEAVE);
+    const approvedHolidays = getDays(events, eventDescription.APPROVED, eventTypes.ANNUAL_LEAVE);
     const eventObject = this.sortingEvents(events);
-    const pendingDays = getDays(events, eventDescription.PENDING, eventType.ANNUAL_LEAVE);
+    const pendingDays = getDays(events, eventDescription.PENDING, eventTypes.ANNUAL_LEAVE);
 
     return (
       <Container

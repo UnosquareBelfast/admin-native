@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { PropTypes as PT } from 'prop-types';
 import Day from 'react-native-calendars/src/calendar/day/custom';
-import holidayStatusColor from '../../../utilities/holidayStatus';
+import { holidayStatusColor } from '../../../constants/holidayStatus';
 
 const CustomDay = (props) => {
   const { marking:
@@ -14,7 +14,7 @@ const CustomDay = (props) => {
       sameDate,
     } } = props;
 
-
+    
   const HalfDay = () => {
     if (!halfDay) {
       return null;
