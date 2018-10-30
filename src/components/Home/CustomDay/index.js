@@ -14,7 +14,6 @@ const CustomDay = (props) => {
       sameDate,
     } } = props;
 
-    
   const HalfDay = () => {
     if (!halfDay) {
       return null;

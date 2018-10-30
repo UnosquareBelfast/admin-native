@@ -98,8 +98,8 @@ export default Container => class extends Component {
     }
 
     formatDate = data => data.reduce((obj, item) => {
-      const isWFH = (item.eventType.description === eventType.WFH);
-      const holidayStatus = holidayStatusColor[isWFH
+      const isWfh = item.eventType.description === eventType.WFH;
+      const holidayStatus = holidayStatusColor[isWfh
         ? holidayStatusId.WFH
         : item.eventStatus.eventStatusId];
       const sameDate = moment(item.start).isSame(item.end);

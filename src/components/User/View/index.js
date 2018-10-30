@@ -32,9 +32,11 @@ const UserView = (props) => {
       : (
         <ListItem
           statusId={isWfh
-            ? holidayStatus.WFH : item.eventStatus.eventStatusId}
+            ? holidayStatus.WFH
+            : item.eventStatus.eventStatusId}
           status={isWfh
-            ? eventType.WFH : item.eventStatus.description}
+            ? eventType.WFH
+            : item.eventStatus.description}
           startDate={item.start}
           endDate={item.end}
           duration={item.halfDay ? 0.5 : getDuration(item.start, item.end)}
