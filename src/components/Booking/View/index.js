@@ -29,7 +29,6 @@ const BookingView = (props) => {
   } = props;
 
   const { startDate, endDate, halfDay, status } = booking;
-  const rejected = (status !== eventDescription.REJECTED)
 
   return (
     eventsLoaded
@@ -83,7 +82,7 @@ const BookingView = (props) => {
             </View>
           </View>
 
-          {rejected
+          {status !== eventDescription.APPROVED
             ? (
               <Fragment>
                 <WarningMessage

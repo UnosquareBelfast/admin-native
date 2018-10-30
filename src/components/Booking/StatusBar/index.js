@@ -9,7 +9,7 @@ import { WHITE } from '../../../styles/colors';
 const StatusBar = ({ booking, cancelHoliday }) => {
   const { status, statusId, startDate, endDate } = booking;
   const RemoveButton = () => {
-    if (statusId === 3) {
+    if (statusId === 2) {
       return null;
     }
 
