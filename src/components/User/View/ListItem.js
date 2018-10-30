@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { PropTypes as PT } from 'prop-types';
 import { P } from '../../Common';
 import styles from './styles';
-import holidayStatusColor from '../../../utilities/holidayStatus';
+import { holidayStatusColor } from '../../../constants/holidayStatus';
 
 const ListItem = (props) => {
   const { status, statusId, startDate, endDate, duration } = props;

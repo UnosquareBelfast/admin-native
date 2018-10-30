@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet, Alert } from 'react-native';
 import { PropTypes as PT } from 'prop-types';
 import { Icon } from 'react-native-elements';
-import holidayStatusColor from '../../../utilities/holidayStatus';
+import { holidayStatusColor } from '../../../constants/holidayStatus';
 import { H4, P } from '../../Common';
 import { WHITE } from '../../../styles/colors';
 

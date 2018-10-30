@@ -6,7 +6,7 @@ import H1 from '../H1';
 import H3 from '../H3';
 
 const SummaryOfDays = (props) => {
-  const { numberOfDays, holidayStatus } = props;
+  const { numberOfDays, holidayOverview } = props;
   return (
     <View style={styles.holidayContainer}>
       <View style={styles.holidayText}>
@@ -16,14 +16,14 @@ const SummaryOfDays = (props) => {
         </H1>
         <H1>DAYS</H1>
       </View>
-      <H3 style={styles.textGrey}>{holidayStatus}</H3>
+      <H3 style={styles.textGrey}>{holidayOverview}</H3>
     </View>
   );
 };
 
 SummaryOfDays.propTypes = {
   numberOfDays: PT.number.isRequired,
-  holidayStatus: PT.string.isRequired,
+  holidayOverview: PT.string.isRequired,
 };
 
 export default SummaryOfDays;
