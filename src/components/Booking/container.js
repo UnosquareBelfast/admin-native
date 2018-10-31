@@ -21,7 +21,7 @@ export default Container => class extends Component {
     super(props);
     this.state = {
       booking: {
-        holId: 0,
+        eventID: 0,
         statusId: 0,
         status: '',
         startDate: '',
@@ -51,7 +51,7 @@ export default Container => class extends Component {
     this.setState({
       booking: {
         ...booking,
-        holId: holiday.holId,
+        eventID: holiday.eventID,
         statusId: holiday.statusId,
         status: holiday.status,
         startDate: holiday.startDate || chosenDate,
@@ -160,14 +160,14 @@ export default Container => class extends Component {
   }
 
   updateHoliday = () => {
-    const { booking: { endDate, halfDay, startDate, holId } } = this.state;
+    const { booking: { endDate, halfDay, startDate, eventID } } = this.state;
     const { navigation } = this.props;
 
     const request = {
       endDate,
       halfDay,
       startDate,
-      holidayId: holId,
+      eventId: eventID,
     };
 
     updateHolidayRequest(request)
@@ -179,11 +179,11 @@ export default Container => class extends Component {
   }
 
   cancelHoliday = () => {
-    const { booking: { holId } } = this.state;
+    const { booking: { eventID } } = this.state;
     const { navigation } = this.props;
 
     const request = {
-      holidayId: holId,
+      eventId: eventID,
     };
 
     cancelHolidayRequest(request)
@@ -227,7 +227,6 @@ export default Container => class extends Component {
         remainingHolidays={remainingHolidays - approvedHolidays - pendingDays}
         potentialHolidays={potentialHolidays}
         eventsLoaded={eventsLoaded}
-        pendingDays={pendingDays}
         selectEventType={this.selectEventType}
       />
     );
