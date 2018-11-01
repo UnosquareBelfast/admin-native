@@ -2,14 +2,14 @@ import React from 'react';
 import { View, StyleSheet, Alert } from 'react-native';
 import { PropTypes as PT } from 'prop-types';
 import { Icon } from 'react-native-elements';
-import { holidayStatusColor } from '../../../constants/holidayStatus';
+import { holidayStatusColor, holidayStatus } from '../../../constants/holidayStatus';
 import { H4, P } from '../../Common';
 import { WHITE } from '../../../styles/colors';
 
 const StatusBar = ({ booking, cancelHoliday }) => {
   const { status, statusId, startDate, endDate } = booking;
   const RemoveButton = () => {
-    if (statusId === 2) {
+    if (statusId === holidayStatus.APPROVED || statusId === holidayStatus.CANCELLED) {
       return null;
     }
 
