@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
   upcoming: {
     flex: 1,
     backgroundColor: '#fcfcfc',
-    padding: 20,
+    paddingHorizontal: 20,
   },
 });
 
