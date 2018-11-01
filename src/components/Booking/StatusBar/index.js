@@ -61,7 +61,7 @@ export default StatusBar;
 
 StatusBar.propTypes = {
   booking: PT.shape({
-    holId: PT.number,
+    eventId: PT.number,
     statusId: PT.number,
     status: PT.string,
     startDate: PT.string,
