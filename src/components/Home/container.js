@@ -122,7 +122,7 @@ export default Container => class extends Component {
           halfDay: item.halfDay,
           statusId: isWfh ? holidayStatusId.WFH : item.eventStatus.eventStatusId,
           status: isWfh ? eventType.WFH : item.eventStatus.description,
-          eventID: item.eventId,
+          eventId: item.eventId,
           duration: item.halfDay ? 0.5 : getDuration(item.start, item.end),
           eventType: item.eventType.description,
         };

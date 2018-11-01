@@ -126,7 +126,7 @@ BookingView.propTypes = {
   booked: PT.bool.isRequired,
   updateHalfDay: PT.func.isRequired,
   booking: PT.shape({
-    eventID: PT.number,
+    eventId: PT.number,
     statusId: PT.number,
     status: PT.string,
     startDate: PT.string,
