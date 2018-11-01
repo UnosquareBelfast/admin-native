@@ -82,7 +82,7 @@ const BookingView = (props) => {
             </View>
           </View>
 
-          {status !== eventDescription.APPROVED
+          {!status || status === eventDescription.REJECTED || status === eventDescription.PENDING
             ? (
               <Fragment>
                 <WarningMessage
