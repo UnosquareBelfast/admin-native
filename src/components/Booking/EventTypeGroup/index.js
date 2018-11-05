@@ -8,20 +8,34 @@ import type from '../../../constants/eventTypes';
 class EventTypeGroup extends Component {
   static propTypes = {
     selectEventType: PT.func.isRequired,
+    booked: PT.bool.isRequired,
+    booking: PT.shape({
+      eventType: PT.string,
+    }).isRequired,
   }
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      eventType: [
+      eventTypes: [
         { type: type.ANNUAL_LEAVE, icon: 'suitcase', color: '#A7BF35' },
         { type: type.WFH, icon: 'home', color: '#399BB6' },
         { type: type.SICK_LEAVE, icon: 'bed', color: '#A2798F' },
         { type: type.WORK_TRAVEL, icon: 'plane', color: '#FF544E' },
       ],
-      selectedIndex: 0,
+      selectedIndex: this.preSelected(),
     };
   }
+
+  preSelected = () => {
+    const { booking: { eventType } } = this.props;
+    let number = 0;
+    if (eventType === type.WFH) {
+      number = 1;
+    }
+
+    return number;
+  };
 
   selected = (i, eventType) => {
     const { selectEventType } = this.props;
@@ -30,19 +44,22 @@ class EventTypeGroup extends Component {
   };
 
   render() {
-    const { eventType, selectedIndex } = this.state;
-    const checkBox = eventType.map((event, index) => {
+    const { booked, booking: { eventType } } = this.props;
+    const { eventTypes, selectedIndex } = this.state;
+    const checkBox = eventTypes.map((event, index) => {
       const isSelected = selectedIndex === index;
       const isOdd = index % 2 === 1;
 
       return (
         <TouchableOpacity
+          disabled={booked}
           key={index}
-          onPress={() => this.selected(index, eventType)}
+          onPress={() => this.selected(index, eventTypes)}
           style={[styles.box,
             {
               backgroundColor: isSelected ? event.color : WHITE,
               marginRight: isOdd ? 0 : 10,
+              opacity: booked && event.type !== eventType ? 0.4 : 1,
             },
           ]}
         >

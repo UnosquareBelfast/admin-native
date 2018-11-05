@@ -2,6 +2,7 @@ import React from 'react';
 import { Button } from 'react-native-elements';
 import { PropTypes as PT } from 'prop-types';
 import { UNOBLUE } from '../../../styles/colors';
+import eventTypes from '../../../constants/eventTypes';
 
 const RequestButton = (props) => {
   const {
@@ -14,7 +15,7 @@ const RequestButton = (props) => {
     booking,
   } = props;
 
-  const { duration } = booking;
+  const { duration, eventType } = booking;
   const availableDays = booked
     ? (remainingHolidays - potentialHolidays + duration)
     : (remainingHolidays - potentialHolidays);
@@ -22,7 +23,7 @@ const RequestButton = (props) => {
   return (
     booked ? (
       <Button
-        disabled={(availableDays < 0)}
+        disabled={availableDays < 0}
         onPress={updateHoliday}
         title="Update"
         backgroundColor={UNOBLUE}
@@ -33,8 +34,11 @@ const RequestButton = (props) => {
       />
     ) : (
       <Button
-        disabled={(remainingHolidays <= 0
-          || availableDays < 0)}
+        disabled={eventType !== eventTypes.WFH
+          ? ((remainingHolidays <= 0
+            || availableDays < 0))
+          : false
+        }
         onPress={submitRequest}
         title="Request"
         backgroundColor={UNOBLUE}
