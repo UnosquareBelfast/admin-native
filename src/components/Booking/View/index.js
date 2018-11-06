@@ -10,6 +10,7 @@ import EventTypeGroup from '../EventTypeGroup';
 import WarningMessage from '../WarningMessage';
 import { UNOBLUE } from '../../../styles/colors';
 import * as eventDescription from '../../../constants/eventDescription';
+import eventTypes from '../../../constants/eventTypes';
 
 const BookingView = (props) => {
   const {
@@ -28,7 +29,9 @@ const BookingView = (props) => {
     selectEventType,
   } = props;
 
-  const { startDate, endDate, halfDay, status } = booking;
+  const { startDate, endDate, halfDay, status, eventType } = booking;
+  const warningMessage = status === eventDescription.REJECTED
+    || status === eventDescription.PENDING;
 
   return (
     eventsLoaded
@@ -44,6 +47,8 @@ const BookingView = (props) => {
                 TYPE
               </FormLabel>
               <EventTypeGroup
+                booked={booked}
+                booking={booking}
                 selectEventType={selectEventType}
               />
             </View>
@@ -82,27 +87,29 @@ const BookingView = (props) => {
             </View>
           </View>
 
-          {!status || status === eventDescription.REJECTED || status === eventDescription.PENDING
+          {warningMessage || (!status && eventType !== eventTypes.WFH)
             ? (
-              <Fragment>
-                <WarningMessage
-                  remainingHolidays={remainingHolidays}
+              <WarningMessage
+                remainingHolidays={remainingHolidays}
+                booked={booked}
+                potentialHolidays={potentialHolidays}
+                booking={booking}
+              />)
+            : null}
+
+          {warningMessage || !status
+            ? (
+              <View style={styles.buttonContainer}>
+                <RequestButton
+                  updateHoliday={updateHoliday}
+                  submitRequest={submitRequest}
                   booked={booked}
+                  loading={loading}
+                  remainingHolidays={remainingHolidays}
                   potentialHolidays={potentialHolidays}
                   booking={booking}
                 />
-                <View style={styles.buttonContainer}>
-                  <RequestButton
-                    updateHoliday={updateHoliday}
-                    submitRequest={submitRequest}
-                    booked={booked}
-                    loading={loading}
-                    remainingHolidays={remainingHolidays}
-                    potentialHolidays={potentialHolidays}
-                    booking={booking}
-                  />
-                </View>
-              </Fragment>)
+              </View>)
             : null}
 
         </ScrollView>
