@@ -35,7 +35,7 @@ const RequestButton = (props) => {
     ) : (
       <Button
         disabled={eventType !== eventTypes.WFH
-          ? ((remainingHolidays <= 0 || availableDays < 0))
+          ? (remainingHolidays <= 0 || availableDays < 0)
           : false
         }
         onPress={submitRequest}
