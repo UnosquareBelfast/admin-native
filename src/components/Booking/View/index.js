@@ -97,7 +97,7 @@ const BookingView = (props) => {
               />)
             : null}
 
-          {warningMessage || (!status)
+          {warningMessage || !status
             ? (
               <View style={styles.buttonContainer}>
                 <RequestButton

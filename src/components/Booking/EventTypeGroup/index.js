@@ -29,12 +29,10 @@ class EventTypeGroup extends Component {
 
   preSelected = () => {
     const { booking: { eventType } } = this.props;
-    let number = 0;
     if (eventType === type.WFH) {
-      number = 1;
+      return 1;
     }
-
-    return number;
+    return 0;
   };
 
   selected = (i, eventType) => {
