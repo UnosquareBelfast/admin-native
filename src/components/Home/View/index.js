@@ -24,6 +24,7 @@ const HomeView = (props) => {
     <ScrollView contentContainerStyle={styles.container}>
       <Calendar
         style={[styles.calendar]}
+        minDate={new Date()}
         markedDates={events}
         markingType="period"
         dayComponent={dayProps => <CustomDay {...dayProps} />}
